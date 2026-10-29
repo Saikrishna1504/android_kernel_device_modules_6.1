@@ -33,17 +33,15 @@
 #include "mtk-smmu-v3.h"
 
 #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
-#define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN)
+#define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN | __GFP_RETRY_MAYFAIL)
 #define HIGH_ORDER_GFP                                                         \
 	(((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN | __GFP_NORETRY) &         \
 	  ~__GFP_RECLAIM) |                                                    \
 	 __GFP_COMP)
 
-// static gfp_t order_flags[] = { HIGH_ORDER_GFP, MID_ORDER_GFP, LOW_ORDER_GFP };
-static gfp_t order_flags[] = { HIGH_ORDER_GFP, MID_ORDER_GFP };
+static gfp_t order_flags[] = { HIGH_ORDER_GFP, MID_ORDER_GFP, LOW_ORDER_GFP };
 
-// int orders[3] = { 9, 4, 0 };
-int orders[2] = { 9, 4 };
+int orders[3] = { 9, 4, 0 };
 #define NUM_ORDERS ARRAY_SIZE(orders)
 struct dmabuf_page_pool *pools[NUM_ORDERS];
 
